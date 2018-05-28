@@ -1,12 +1,12 @@
-import { request } from "graphql-request";
 import { invalidLogin, confirmEmailError } from "./errorMessages";
 import { User } from "../../entity/User";
 import { createTypeormConn } from "../../utils/createTypeormConn";
 import { Connection } from "typeorm";
 import { TestClient } from "../../utils/TestClient";
+import * as faker from 'faker';
 
-const email = "tom@bob.com";
-const password = "jalksdf";
+const email = faker.internet.email();
+const password = faker.internet.password();
 
 let conn: Connection;
 beforeAll(async () => {
@@ -14,6 +14,7 @@ beforeAll(async () => {
 });
 afterAll(async () => {
   conn.close();
+  User.delete({ email });
 });
 
 const loginExpectError = async (
