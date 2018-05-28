@@ -8,12 +8,13 @@ import { forgotPasswordLockAccount } from "../../utils/forgotPasswordLockAccount
 import { passwordNotLongEnough } from "../register/errorMessages";
 import { expiredKeyError } from "./errorMessages";
 import { forgotPasswordLockedError } from "../login/errorMessages";
+import * as faker from 'faker';
 
 let conn: Connection;
 export const redis = new Redis();
-const email = "bob5@bob.com";
-const password = "jlkajoioiqwe";
-const newPassword = "qowuieoiqwueoq";
+const email = faker.internet.email();
+const password = faker.internet.password();
+const newPassword = faker.internet.password();
 
 let userId: string;
 beforeAll(async () => {
@@ -27,6 +28,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  User.delete({ email });
   conn.close();
 });
 
